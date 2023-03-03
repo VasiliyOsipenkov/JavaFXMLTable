@@ -19,13 +19,15 @@ public class JavaFXMLTable extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
-        Scene scene = new Scene(root);
-        
+        Parent root = FXMLLoader.load(getClass().getResource("JavaFXMLTable.fxml"));
+             
+        Scene scene = new Scene(root,300,250);
+        stage.setTitle("JavaFXTable");
         stage.setScene(scene);
+        //stage.setResizable(false);
         stage.show();
     }
+    
 
     /**
      * @param args the command line arguments
