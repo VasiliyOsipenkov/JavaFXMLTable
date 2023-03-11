@@ -22,9 +22,9 @@ public class JavaFXMLTable extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("JavaFXMLTable.fxml"));
              
         Scene scene = new Scene(root,300,250);
-        stage.setTitle("JavaFXTable");
+        stage.setTitle("JavaFXMLTable");
         stage.setScene(scene);
-        //stage.setResizable(false);
+        //stage.setResizable(false); //в случае если требуется постоянный размер окна
         stage.show();
     }
     

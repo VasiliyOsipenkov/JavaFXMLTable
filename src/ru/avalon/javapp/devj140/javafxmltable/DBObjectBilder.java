@@ -5,6 +5,9 @@
  */
 package ru.avalon.javapp.devj140.javafxmltable;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,6 +16,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ru.avalon.javapp.devj140.javafxmltable.models.Domains;
 import ru.avalon.javapp.devj140.javafxmltable.models.Person;
 
@@ -21,6 +27,7 @@ import ru.avalon.javapp.devj140.javafxmltable.models.Person;
  * @author VOsipenkov
  */
 public class DBObjectBilder {
+    private Properties loginData = new Properties();
     private String url;
     private String userName;
     private String password;
@@ -30,6 +37,20 @@ public class DBObjectBilder {
         this.userName = userName;
         this.password = password;
     }
+
+    public DBObjectBilder() {        
+        File propertyFile = new File("loginData.prop");
+        try {
+            loginData.load(new FileReader(propertyFile));        
+        } catch (IOException ex) {
+            Logger.getLogger(DBObjectBilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.url = loginData.getProperty("db.url");      
+        this.userName = loginData.getProperty("db.user");
+        this.password = loginData.getProperty("db.password");
+    }
+    
+    
     public List<Person> getPerson(){
         List<Person> persons = new ArrayList<>();
         try(Connection conn = DriverManager.getConnection(url, userName, password);
@@ -70,4 +91,17 @@ public class DBObjectBilder {
         return domains;
     }
     
+    public boolean dbLoginCheck(String loginName, String loginPassword){
+        try(Connection conn = DriverManager.getConnection(url, userName, password);
+                Statement stm = conn.createStatement()){            
+            try(ResultSet rs = stm.executeQuery("select * from USERS where NAME = '" + loginName + "' and PASSWORD = '" + loginPassword + "'")){  
+                if (rs.next()) {                    
+                    return true;
+                }
+            }                        
+        } catch (SQLException ex) {  
+            System.out.println(ex.getMessage());
+        }            
+        return false;
+    }
 }

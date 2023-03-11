@@ -33,7 +33,7 @@ import ru.avalon.javapp.devj140.javafxmltable.models.Users;
 public class JavaFXMLTableController implements Initializable {
     
     @FXML
-    private Text welcome;
+    private Label welcome;
     @FXML
     private Label dbUser;
     @FXML
@@ -43,7 +43,7 @@ public class JavaFXMLTableController implements Initializable {
     @FXML
     private PasswordField password;
     @FXML
-    private Text loginCheck;
+    private Label loginCheck;
     @FXML
     private Button login;
           
@@ -57,42 +57,13 @@ public class JavaFXMLTableController implements Initializable {
     
     @FXML
     public void buttonLogin (ActionEvent actionEvent){
-        
-    }
-        (new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(dbLoginCheck(url, user, pword)){
-                    primaryStage.close();
-                    new PersonTable(url, user, pword).init();
-                } else loginCheck.setVisible(true);
-                    
-            }
-        });
-        
-    private void getlogin(String url, String user, String pword){
-        new PersonTable(url, user, pword).init(); 
-    }     
-       
-    private boolean dbLoginCheck(String url, String user, String pword){
-        try(Connection conn = DriverManager.getConnection(url, user, pword);
-                Statement stm = conn.createStatement()){
-            List<Users> userList = new ArrayList<>();
-            try(ResultSet rs = stm.executeQuery("select * from USERS")){
-                while(rs.next()){
-                    int id = rs.getInt(1);
-                    String name = rs.getString(2);
-                    String userPassword = rs.getString(3);
-                    userList.add(new Users(id, name, userPassword));
-                }                                 
-            }
-            for(Users u : userList){
-            if(u.getName().equals(userName.getText()) && u.getPassword().equals(password.getText()))
-                return true;
-            }               
-        } catch (SQLException ex) {               
+        if(new DBObjectBilder().dbLoginCheck(userName.getText(), password.getText())){
+            
+            new PersonTable().init();
+        } else {        
+            loginCheck.setStyle("-fx-text-fill: RED");
+            loginCheck.setText("Login or password is incorrect");
         }
-        return false;
-    }
-    
+                    
+    }       
 }

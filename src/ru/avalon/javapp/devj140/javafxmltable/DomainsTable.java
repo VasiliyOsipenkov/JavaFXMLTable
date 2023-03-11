@@ -5,9 +5,12 @@
  */
 package ru.avalon.javapp.devj140.javafxmltable;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,66 +22,34 @@ import ru.avalon.javapp.devj140.javafxmltable.models.Domains;
 
 /**
  *
- * @author Vasiliy
+ * @author Sleeproom
  */
 public class DomainsTable extends Stage{
     
     private Integer personId;
-    private String url;
-    private String userName;
-    private String password;
 
-    public DomainsTable(int personId, String url, String userName, String password) {
-        this.personId = personId;
-        this.url = url;
-        this.userName = userName;
-        this.password = password;
+    public DomainsTable(int personId) {
+        this.personId = personId;        
     }   
     
-    public void init(){
-        ObservableList<Domains> domains = FXCollections.observableArrayList(new DBObjectBilder(url, userName, password).getDomainsByPersonId(personId));
-        TableView<Domains> table = new TableView<>(domains);
-        
-        TableColumn<Domains, Integer> idCol = new TableColumn<>("Id");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idCol.setMinWidth(100);
-        table.getColumns().add(idCol);
-        
-        TableColumn<Domains, String> webNameCol = new TableColumn<>("Web name");
-        webNameCol.setCellValueFactory(new PropertyValueFactory<>("webName"));
-        webNameCol.setMinWidth(100);
-        table.getColumns().add(webNameCol);
-        
-        TableColumn<Domains, String> domainNameCol = new TableColumn<>("Domain name");
-        domainNameCol.setCellValueFactory(new PropertyValueFactory<>("domainName"));
-        domainNameCol.setMinWidth(100);
-        table.getColumns().add(domainNameCol);
-        
-        TableColumn<Domains, String> ipCol = new TableColumn<>("Ip");
-        ipCol.setCellValueFactory(new PropertyValueFactory<>("ip"));
-        ipCol.setMinWidth(100);
-        table.getColumns().add(ipCol);
-        
-        TableColumn<Domains, Timestamp> dateRegCol = new TableColumn<>("Registration date");
-        dateRegCol.setCellValueFactory(new PropertyValueFactory<>("dateReg"));
-        dateRegCol.setMinWidth(100);
-        table.getColumns().add(dateRegCol);
-        
-        TableColumn<Domains, String> countryRegCol = new TableColumn<>("Сountry of registration");
-        countryRegCol.setCellValueFactory(new PropertyValueFactory<>("countryReg"));
-        countryRegCol.setMinWidth(100);
-        table.getColumns().add(countryRegCol);       
-       
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(table);
-        
-        Scene scene = new Scene(root, 660, 500);
-        
-        setTitle("List of user id = " + personId + " domains");
-        setScene(scene);
-        initModality(Modality.APPLICATION_MODAL);
-        showAndWait();
-    }
     
+    public void init(){        
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("DomainsTable.fxml"));
+            root = loader.load();
+            ((DomainsTableController)loader.getController()).initDomainsTable(personId);//инициализируем данные в таблице контроллера
+            initModality(Modality.APPLICATION_MODAL);
+            Scene scene = new Scene(root);
+            setTitle("List of user id = " + personId + " domains");
+            setScene(scene);            
+            showAndWait();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        /*   
+       
+        Scene scene = new Scene(root, 660, 500);
+        */
+    }
 }

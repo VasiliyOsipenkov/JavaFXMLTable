@@ -5,82 +5,29 @@
  */
 package ru.avalon.javapp.devj140.javafxmltable;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.avalon.javapp.devj140.javafxmltable.models.Person;
 
 /**
  *
- * @author VOsipenkov
+ * @author Sleeproom
  */
 public class PersonTable extends Stage{
-    
-    String url;
-    String user;
-    String pword;
-
-    public PersonTable(String url, String user, String pword) {
-        this.url = url;
-        this.user = user;
-        this.pword = pword;
-    }    
-             
-    public void init(){
-        ObservableList<Person> persons = FXCollections.observableArrayList(new DBObjectBilder(url, user, pword).getPerson());
-        TableView<Person> table = new TableView<>(persons);
-        
-        table.setOnMouseClicked(e -> {
-            if(e.getClickCount()==2){
-                Person person = table.getSelectionModel().getSelectedItem();
-                new DomainsTable(person.getId(), url, user, pword).init();
-            }
-        });
-        
-        TableColumn<Person,Integer> idCol = new TableColumn<>("Id");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idCol.setMinWidth(20);
-        table.getColumns().add(idCol);       
-                
-        TableColumn<Person, String> jobTitleCol = new TableColumn<>("Job Title");
-        jobTitleCol.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
-        jobTitleCol.setMinWidth(100);
-        table.getColumns().add(jobTitleCol);
-        
-        TableColumn<Person, String> firstNameLastNameCol = new TableColumn<>("First Name, Last Name");
-        firstNameLastNameCol.setCellValueFactory(new PropertyValueFactory<>("firstNameLastName"));
-        firstNameLastNameCol.setMinWidth(150);
-        table.getColumns().add(firstNameLastNameCol);
-        
-        TableColumn<Person, String> phoneCol = new TableColumn<>("Phone");
-        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        phoneCol.setMinWidth(150);
-        table.getColumns().add(phoneCol);
-        
-        TableColumn<Person, String> emailCol = new TableColumn<>("Email");
-        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        emailCol.setMinWidth(200);
-        table.getColumns().add(emailCol);
-        
-        TableColumn<Person, Integer> domainsCountCol = new TableColumn<>("Domains count");
-        domainsCountCol.setCellValueFactory(new PropertyValueFactory<>("domainsCount"));
-        domainsCountCol.setMinWidth(20);
-        table.getColumns().add(domainsCountCol);
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(table);
-        
-        Scene scene = new Scene(root, 750, 600);
-        
-        setTitle("Person list");
-        setScene(scene);
-        initModality(Modality.APPLICATION_MODAL);
-        showAndWait();
+    public void init() {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("PersonTable.fxml"));
+            initModality(Modality.APPLICATION_MODAL);
+            Scene scene = new Scene(root);
+            setTitle("Person list");
+            setScene(scene);            
+            showAndWait();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
