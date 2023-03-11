@@ -18,11 +18,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import ru.avalon.javapp.devj140.javafxmltable.models.Users;
 
 /**
@@ -58,7 +60,8 @@ public class JavaFXMLTableController implements Initializable {
     @FXML
     public void buttonLogin (ActionEvent actionEvent){
         if(new DBObjectBilder().dbLoginCheck(userName.getText(), password.getText())){
-            
+            Stage stage = (Stage) welcome.getScene().getWindow();
+            stage.close();//как по другому получить ссылку на stage не придумал
             new PersonTable().init();
         } else {        
             loginCheck.setStyle("-fx-text-fill: RED");
