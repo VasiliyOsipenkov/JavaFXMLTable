@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.avalon.javapp.devj140.javafxmltable.JavaFXMLTableController">
+    <children>
+        <Label fx:id="welcome" text="Welcome" layoutX="25" layoutY="50" style="-fx-font-size:25px"/>
+        <Label fx:id="dbUser" text="User Name" layoutX="25" layoutY="93"/>
+        <TextField fx:id="userName" layoutX="130" layoutY="90"/>
+        <Label fx:id="dbPassword" text="Password" layoutX="25" layoutY="123"/>        
+        <PasswordField fx:id="password" layoutX="130" layoutY="120"/>
+        <Label fx:id="loginCheck" layoutX="25" layoutY="160"/>
+        <Button fx:id="singIn" text="Sign in" layoutX="225" layoutY="160" onAction="#buttonLogin"/>        
+    </children>
+</AnchorPane>
