@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="750.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.avalon.javapp.devj140.javafxmltable.PersonTableController">
+    <children>
+        <TableView fx:id="table" onMouseClicked="#setOnMouseClicked" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columns>
+                <TableColumn fx:id="idCol" text="Id" minWidth="20"/>
+                <TableColumn fx:id="jobTitleCol" text="Job Title" minWidth="100"/>
+                <TableColumn fx:id="firstNameLastNameCol" text="First Name, Last Name" minWidth="150"/>
+                <TableColumn fx:id="phoneCol" text="Phone" minWidth="150"/>
+                <TableColumn fx:id="emailCol" text="Email" minWidth="200"/>
+                <TableColumn fx:id="domainsCountCol" text="Domains count" minWidth="20"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
